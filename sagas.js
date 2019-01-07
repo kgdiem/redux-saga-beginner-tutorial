@@ -1,4 +1,3 @@
-import { delay } from 'redux-saga';
 import { put, takeEvery, all, call } from 'redux-saga/effects'
 
 /*
@@ -30,6 +29,17 @@ function* fetchPosts() {
     const json = yield res.json();
 
     yield put({ type: 'FETCH_COMPLETE', value: json });
+
+    return json;
+}
+
+// Hum hum hum, how do we use an async generator w/ redux saga...
+async function* fetchPostsAsync() {
+    const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+
+    const json = await res.json();
+
+    yield put({ type: 'FETCH_COMPLETE', value: json});
 
     return json;
 }
